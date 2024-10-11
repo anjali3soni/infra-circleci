@@ -202,6 +202,10 @@ executors:
 jobs:
   validate-terraform-install:
     executor: terraform-executor 
+    parameters:
+      environment:
+        type: string
+        default: "dev"
     steps:
       - checkout
       - terraform/install:
@@ -224,6 +228,10 @@ jobs:
           profile_name: default
           # secret-access-key: $AWS_SECRET_ACCESS_KEY
       - terraform/init
+      - run:
+          name: Select Workspace
+          command: |
+            terraform workspace select $environment
       
 
 
