@@ -45,10 +45,10 @@ jobs:
       #         export environment="<< parameters.environment >>"
       #       fi
       - aws-cli/install
-      - aws-cli/setup:
+      - aws-cli/setup
           # access-key-id: $AWS_ACCESS_KEY_ID
-          region: us-east-1 
-          profile_name: default
+          # region: us-east-1 
+          # profile_name: default
           # secret-access-key: $AWS_SECRET_ACCESS_KEY
       - terraform/init
       # - run:
