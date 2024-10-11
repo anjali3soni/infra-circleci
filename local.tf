@@ -4,7 +4,7 @@ locals {
   dev = {
     profile     = "default"
     region      = "us-east-1"
-    environment = "${terraform.workspace}-prod"
+    environment = "${terraform.workspace}"
 
     #vpc
     cidr            = "10.10.0.0/16"
@@ -19,7 +19,7 @@ locals {
   stage = {
     profile     = "default"
     region      = "us-east-1"
-    environment = "${terraform.workspace}-prod"
+    environment = "${terraform.workspace}"
 
     #vpc
     cidr            = "10.20.0.0/16"
@@ -34,7 +34,7 @@ locals {
   pre-prod = {
     profile     = "default"
     region      = "us-east-1"
-    environment = "${terraform.workspace}-prod"
+    environment = "${terraform.workspace}"
 
     #vpc
     cidr            = "10.30.0.0/16"
@@ -49,7 +49,7 @@ locals {
   prod = {
     profile     = "default"
     region      = "us-east-1"
-    environment = "${terraform.workspace}-prod"
+    environment = "${terraform.workspace}"
 
     #vpc
     cidr            = "10.30.0.0/16"
