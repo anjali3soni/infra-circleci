@@ -1,0 +1,51 @@
+version: 2.1
+
+orbs:
+  terraform: circleci/terraform@3.1 
+
+executors:
+  terraform-executor:
+    machine:
+      image: ubuntu-2004:202101-01  
+      resource_class: medium  
+
+jobs:
+  validate-terraform-install:
+    executor: terraform-executor 
+    steps:
+      - checkout
+      - terraform/install 
+
+  terraform-deploy:
+    executor: terraform-executor 
+    parameters:
+      environment:
+        type: string
+        default: "dev"
+    steps:
+      - checkout
+      
+      - terraform/init:
+          path: .
+
+      - run:
+          name: Select or Create Workspace
+          command: |
+            terraform workspace select << parameters.environment >> || terraform workspace new << parameters.environment >>
+
+      - terraform/plan:
+          path: .
+          var: env=<< parameters.environment >>
+
+      - terraform/apply:
+          path: .
+          auto-approve: true
+
+workflows:
+  deploy:
+    jobs:
+      - validate-terraform-install  
+      - terraform-deploy:
+          requires: 
+            - validate-terraform-install 
+          environment: "dev"  
