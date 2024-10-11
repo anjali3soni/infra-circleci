@@ -1,6 +1,7 @@
 provider "aws" {
-  region  = local.env.region
-  profile = local.env.profile
+#   region  = local.env.region
+#   profile = local.env.profile
+    region = us-east-1
 }
 
 terraform {
@@ -9,7 +10,7 @@ terraform {
     backend "s3" {
       profile = "default"
       bucket  = "redis-circleci"
-      key     = "/tfstate"
+      key     = "tfstate/task"
       region  = "us-east-1"
     }
 

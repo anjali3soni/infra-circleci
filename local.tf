@@ -2,7 +2,7 @@ locals {
 
 
   dev = {
-    profile     = "yocharge"
+    profile     = "default"
     region      = "us-east-1"
     environment = "${terraform.workspace}-prod"
 
@@ -17,7 +17,7 @@ locals {
   }
 
   stage = {
-    profile     = "yocharge"
+    profile     = "default"
     region      = "us-east-1"
     environment = "${terraform.workspace}-prod"
 
@@ -32,7 +32,7 @@ locals {
   }
 
   pre-prod = {
-    profile     = "yocharge"
+    profile     = "default"
     region      = "us-east-1"
     environment = "${terraform.workspace}-prod"
 
@@ -47,7 +47,7 @@ locals {
   }
 
   prod = {
-    profile     = "yocharge"
+    profile     = "default"
     region      = "us-east-1"
     environment = "${terraform.workspace}-prod"
 
