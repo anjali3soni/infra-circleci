@@ -36,7 +36,7 @@ jobs:
             echo "ENVIRONMENT=$ENVIRONMENT" >> $BASH_ENV
       
       - terraform/init:
-          path: ./
+          paths: ./
 
       - run:
           name: Select Workspace
@@ -44,13 +44,13 @@ jobs:
             terraform workspace select $ENVIRONMENT
 
       - terraform/plan:
-          path: ./
+          paths: ./
           var: env=<< parameters.environment >>
           var: aws_access_key=<< AWS_ACCESS_KEY_ID >>
           var: aws_secret_key=<< AWS_SECRET_ACCESS_KEY >>
 
       - terraform/apply:
-          path: ./
+          paths: ./
           var: aws_access_key=<< AWS_ACCESS_KEY_ID >>
           var: aws_secret_key=<< AWS_SECRET_ACCESS_KEY >>
           auto-approve: true
