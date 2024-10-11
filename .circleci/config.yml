@@ -55,7 +55,7 @@ jobs:
       #     name: Select Workspace
       #     command: |
       #       terraform workspace select $environment
-      - terraform/plan:
+      - terraform/plan
           # var:
           #   env: $ENVIRONMENT
       - terraform/apply:
