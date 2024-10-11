@@ -95,17 +95,16 @@ jobs:
       - checkout
 
       - run:
-          name: Set Environment Variable
+          name: Set environment Variable
           command: |
             if [[ "<< parameters.environment >>" != "dev" && 
                   "<< parameters.environment >>" != "prod" && 
                   "<< parameters.environment >>" != "pre-prod" && 
                   "<< parameters.environment >>" != "stage" ]]; then
-              export ENVIRONMENT="dev"
+              export environment="dev"
             else
-              export ENVIRONMENT="<< parameters.environment >>"
+              export environment="<< parameters.environment >>"
             fi
-            echo "ENVIRONMENT=$ENVIRONMENT" >> $BASH_ENV
       
       - terraform/init:
           path: ./
@@ -113,7 +112,7 @@ jobs:
       - run:
           name: Select Workspace
           command: |
-            terraform workspace select $ENVIRONMENT
+            terraform workspace select $environment
 
       - terraform/plan:
           path: ./
