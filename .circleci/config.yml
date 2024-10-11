@@ -223,10 +223,8 @@ jobs:
           region: us-east-1 
           profile_name: default
           # secret-access-key: $AWS_SECRET_ACCESS_KEY
-      - run:
-          name: tf init
-          command: |
-            terraform init
+      - terraform/init
+      
 
 
   terraform-deploy:
