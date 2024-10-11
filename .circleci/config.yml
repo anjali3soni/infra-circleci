@@ -14,10 +14,10 @@ executors:
 jobs:
   validate-terraform-install:
     executor: terraform-executor 
-    parameters:
-      environment:
-        type: string
-        default: "dev"
+    # parameters:
+    #   environment:
+    #     type: string
+    #     default: "dev"
     steps:
       - checkout
       - terraform/install:
@@ -33,17 +33,17 @@ jobs:
             node -v 
             docker -v
             terraform -v
-      - run:
-          name: Set environment Variable
-          command: |
-            if [[ "<< parameters.environment >>" != "dev" && 
-                  "<< parameters.environment >>" != "prod" && 
-                  "<< parameters.environment >>" != "pre-prod" && 
-                  "<< parameters.environment >>" != "stage" ]]; then
-              export environment="dev"
-            else
-              export environment="<< parameters.environment >>"
-            fi
+      # - run:
+      #     name: Set environment Variable
+      #     command: |
+      #       if [[ "<< parameters.environment >>" != "dev" && 
+      #             "<< parameters.environment >>" != "prod" && 
+      #             "<< parameters.environment >>" != "pre-prod" && 
+      #             "<< parameters.environment >>" != "stage" ]]; then
+      #         export environment="dev"
+      #       else
+      #         export environment="<< parameters.environment >>"
+      #       fi
       - aws-cli/install
       - aws-cli/setup:
           # access-key-id: $AWS_ACCESS_KEY_ID
@@ -56,11 +56,11 @@ jobs:
           command: |
             terraform workspace select $environment
       - terraform/plan:
-          var:
-            env: << parameters.environment >>
+          # var:
+          #   env: << parameters.environment >>
       - terraform/apply:
-          var: 
-            env: << parameters.environment >>
+          # var: 
+          #   env: << parameters.environment >>
           auto-approve: true
       
 
