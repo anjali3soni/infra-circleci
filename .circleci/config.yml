@@ -219,9 +219,10 @@ jobs:
             terraform -v
       - aws-cli/install
       - aws-cli/setup:
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-region: us-east-1 
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          # access-key-id: $AWS_ACCESS_KEY_ID
+          region: us-east-1 
+          profile: default
+          # secret-access-key: $AWS_SECRET_ACCESS_KEY
       - run:
           name: tf init
           command: |
