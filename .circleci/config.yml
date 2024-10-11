@@ -137,3 +137,5 @@ workflows:
       - terraform-deploy:
           requires: 
             - validate-terraform-install 
+          parameters:
+            environment: "dev"
