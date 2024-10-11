@@ -33,17 +33,17 @@ jobs:
             node -v 
             docker -v
             terraform -v
-      # - run:
-      #     name: Set environment Variable
-      #     command: |
-      #       if [[ "<< parameters.environment >>" != "dev" && 
-      #             "<< parameters.environment >>" != "prod" && 
-      #             "<< parameters.environment >>" != "pre-prod" && 
-      #             "<< parameters.environment >>" != "stage" ]]; then
-      #         export environment="dev"
-      #       else
-      #         export environment="<< parameters.environment >>"
-      #       fi
+      - run:
+          name: Set environment Variable
+          command: |
+            if [[ "<< parameters.environment >>" != "dev" && 
+                  "<< parameters.environment >>" != "prod" && 
+                  "<< parameters.environment >>" != "pre-prod" && 
+                  "<< parameters.environment >>" != "stage" ]]; then
+              export environment="dev"
+            else
+              export environment="<< parameters.environment >>"
+            fi
       - aws-cli/install
       - aws-cli/setup:
           # access-key-id: $AWS_ACCESS_KEY_ID
@@ -58,11 +58,11 @@ jobs:
       - terraform/plan:
           path: ./
           var:
-            env: $environment=<< parameters.environment >>
+            env: << parameters.environment >>
       - terraform/apply:
           path: ./
           var: 
-            env: $environment=<< parameters.environment >>
+            env: << parameters.environment >>
           auto-approve: true
       
 
