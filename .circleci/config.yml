@@ -221,6 +221,17 @@ jobs:
             node -v 
             docker -v
             terraform -v
+      - run:
+          name: Set environment Variable
+          command: |
+            if [[ "<< parameters.environment >>" != "dev" && 
+                  "<< parameters.environment >>" != "prod" && 
+                  "<< parameters.environment >>" != "pre-prod" && 
+                  "<< parameters.environment >>" != "stage" ]]; then
+              export environment="dev"
+            else
+              export environment="<< parameters.environment >>"
+            fi
       - aws-cli/install
       - aws-cli/setup:
           # access-key-id: $AWS_ACCESS_KEY_ID
@@ -232,58 +243,18 @@ jobs:
           name: Select Workspace
           command: |
             terraform workspace select $environment
+      - terraform/plan:
+          path: ./
+          var:
+            env: << parameters.environment >>
+      - terraform/apply:
+          path: ./
+          var: 
+            env: << parameters.environment >>
+          auto-approve: true
       
-
-
-  terraform-deploy:
-    executor: terraform-executor 
-  #   parameters:
-  #     environment:
-  #       type: string
-  #       default: "dev"
-    steps:
-      - checkout
-      - run:
-          command: terraform -v
-  #     - run:
-  #         name: Set environment Variable
-  #         command: |
-  #           if [[ "<< parameters.environment >>" != "dev" && 
-  #                 "<< parameters.environment >>" != "prod" && 
-  #                 "<< parameters.environment >>" != "pre-prod" && 
-  #                 "<< parameters.environment >>" != "stage" ]]; then
-  #             export environment="dev"
-  #           else
-  #             export environment="<< parameters.environment >>"
-  #           fi
-      
-      # - terraform/init:
-      #     path: ./
-
-      # # - run:
-      # #     name: Select Workspace
-      # #     command: |
-      # #       terraform workspace select $environment
-
-      # - terraform/plan:
-      #     path: ./
-      #     var:
-      #       # env: << parameters.environment >>
-      #       aws_access_key: $AWS_ACCESS_KEY_ID
-      #       aws_secret_key: $AWS_SECRET_ACCESS_KEY
-
-      # - terraform/apply:
-      #     path: ./
-      #     var: 
-      #       # env: << parameters.environment >>
-      #       aws_access_key: $AWS_ACCESS_KEY_ID
-      #       aws_secret_key: $AWS_SECRET_ACCESS_KEY
-      #     auto-approve: true
 
 workflows:
   deploy:
     jobs:
       - validate-terraform-install  
-      - terraform-deploy:
-          requires: 
-            - validate-terraform-install 
