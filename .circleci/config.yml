@@ -40,11 +40,11 @@ jobs:
       - run:
           name: Select Workspace
           command: |
-            terraform workspace select << parameters.environment >> 
+            terraform workspace select $ENVIRONMENT
 
       - terraform/plan:
           path: .
-          var: env=<< parameters.environment >>
+          var: env=$ENVIRONMENT
 
       - terraform/apply:
           path: .
