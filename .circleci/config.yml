@@ -205,6 +205,13 @@ jobs:
       # - terraform/install 
       - run:
           command: ls -lah
+        
+      - run:
+          name: checking dependencies
+          command: |
+            node -v 
+            docker -v
+            terraform -v
 
   # terraform-deploy:
   #   executor: terraform-executor 
