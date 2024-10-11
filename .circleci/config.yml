@@ -91,10 +91,6 @@ jobs:
       environment:
         type: string
         default: "dev"
-      aws_access_key_id:
-        type: string
-      aws_secret_access_key:
-        type: string
     steps:
       - checkout
 
