@@ -57,6 +57,7 @@ jobs:
             terraform workspace select << parameters.environment >>
       - terraform/plan
       - terraform/apply
+      - terraform/init
       - terraform/destroy
     
 
