@@ -58,10 +58,10 @@ jobs:
       - terraform/plan
           # var:
           #   env: $ENVIRONMENT
-      - terraform/apply:
+      - terraform/apply
           # var: 
           #   env: $ENVIRONMENT
-          auto-approve: true
+          # auto-approve: true
       
 
 workflows:
