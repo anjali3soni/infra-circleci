@@ -78,56 +78,101 @@ executors:
       image: ubuntu-2004:202101-01  
       resource_class: medium  
 
-jobs:
-  validate-terraform-install:
-    executor: terraform-executor 
-    steps:
-      - checkout
-      - terraform/install 
+# jobs:
+#   validate-terraform-install:
+#     executor: terraform-executor 
+#     steps:
+#       - checkout
+#       - terraform/install 
 
-  terraform-deploy:
-    executor: terraform-executor 
-    parameters:
-      environment:
-        type: string
-        default: "dev"
-    steps:
-      - checkout
+#   terraform-deploy:
+#     executor: terraform-executor 
+#     parameters:
+#       environment:
+#         type: string
+#         default: "dev"
+#     steps:
+#       - checkout
 
-      - run:
-          name: Set environment Variable
-          command: |
-            if [[ "<< parameters.environment >>" != "dev" && 
-                  "<< parameters.environment >>" != "prod" && 
-                  "<< parameters.environment >>" != "pre-prod" && 
-                  "<< parameters.environment >>" != "stage" ]]; then
-              export environment="dev"
-            else
-              export environment="<< parameters.environment >>"
-            fi
+#       - run:
+#           name: Set environment Variable
+#           command: |
+#             if [[ "<< parameters.environment >>" != "dev" && 
+#                   "<< parameters.environment >>" != "prod" && 
+#                   "<< parameters.environment >>" != "pre-prod" && 
+#                   "<< parameters.environment >>" != "stage" ]]; then
+#               export environment="dev"
+#             else
+#               export environment="<< parameters.environment >>"
+#             fi
       
-      - terraform/init:
-          path: ./
+#       - terraform/init:
+#           path: ./
 
-      - run:
-          name: Select Workspace
-          command: |
-            terraform workspace select $environment
+#       - run:
+#           name: Select Workspace
+#           command: |
+#             terraform workspace select $environment
 
-      - terraform/plan:
-          path: ./
-          var:
-            env: << parameters.environment >>
-            aws_access_key: $AWS_ACCESS_KEY_ID
-            aws_secret_key: $AWS_SECRET_ACCESS_KEY
+#       - terraform/plan:
+#           path: ./
+#           var:
+#             env: << parameters.environment >>
+#             aws_access_key: $AWS_ACCESS_KEY_ID
+#             aws_secret_key: $AWS_SECRET_ACCESS_KEY
 
-      - terraform/apply:
-          path: ./
-          var: 
-            env: << parameters.environment >>
-            aws_access_key: $AWS_ACCESS_KEY_ID
-            aws_secret_key: $AWS_SECRET_ACCESS_KEY
-          auto-approve: true
+#       - terraform/apply:
+#           path: ./
+#           var: 
+#             env: << parameters.environment >>
+#             aws_access_key: $AWS_ACCESS_KEY_ID
+#             aws_secret_key: $AWS_SECRET_ACCESS_KEY
+#           auto-approve: true
+  jobs:
+    terraform-deploy:
+      executor: terraform-executor 
+      parameters:
+        environment:
+          type: string
+          default: "dev"
+      steps:
+        - checkout
+
+        - run:
+            name: Set environment Variable
+            command: |
+              if [[ "<< parameters.environment >>" != "dev" && 
+                    "<< parameters.environment >>" != "prod" && 
+                    "<< parameters.environment >>" != "pre-prod" && 
+                    "<< parameters.environment >>" != "stage" ]]; then
+                export environment="dev"
+              else
+                export environment="<< parameters.environment >>"
+              fi
+        
+        - terraform/init:
+            path: ./
+
+        - run:
+            name: Select Workspace
+            command: |
+              terraform workspace select $environment
+
+        - terraform/plan:
+            path: ./
+            var:
+              env: << parameters.environment >>
+              aws_access_key: $AWS_ACCESS_KEY_ID
+              aws_secret_key: $AWS_SECRET_ACCESS_KEY
+
+        - terraform/apply:
+            path: ./
+            var: 
+              env: << parameters.environment >>
+              aws_access_key: $AWS_ACCESS_KEY_ID
+              aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            auto-approve: true
+
 
 workflows:
   deploy:
