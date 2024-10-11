@@ -217,11 +217,10 @@ jobs:
             docker -v
             terraform -v
       - terraform/init:
-          path: ./
-          var:
-            # env: << parameters.environment >>
-            aws_access_key: $AWS_ACCESS_KEY_ID
-            aws_secret_key: $AWS_SECRET_ACCESS_KEY
+            attach-workspace: false 
+            checkout: true 
+            path: ./ 
+            resource_class: medium 
 
 
 
