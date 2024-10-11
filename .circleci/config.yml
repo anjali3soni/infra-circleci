@@ -24,14 +24,23 @@ jobs:
         default: "dev"
     steps:
       - checkout
+
+      - run:
+          name: Set Environment Variable
+          command: |
+            if [[ "<< parameters.environment >>" != "dev" && "<< parameters.environment >>" != "prod" && "<< parameters.environment >>" != "pre-prod" && "<< parameters.environment >>" != "stage" ]]; then
+              export ENVIRONMENT="dev"
+            else
+              export ENVIRONMENT="<< parameters.environment >>"
+            fi
       
       - terraform/init:
           path: .
 
       - run:
-          name: Select or Create Workspace
+          name: Select Workspace
           command: |
-            terraform workspace select << parameters.environment >> || terraform workspace new << parameters.environment >>
+            terraform workspace select << parameters.environment >> 
 
       - terraform/plan:
           path: .
