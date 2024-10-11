@@ -51,16 +51,16 @@ jobs:
           profile_name: default
           # secret-access-key: $AWS_SECRET_ACCESS_KEY
       - terraform/init
-      - run:
-          name: Select Workspace
-          command: |
-            terraform workspace select $environment
+      # - run:
+      #     name: Select Workspace
+      #     command: |
+      #       terraform workspace select $environment
       - terraform/plan:
-          var:
-            env: $ENVIRONMENT
+          # var:
+          #   env: $ENVIRONMENT
       - terraform/apply:
-          var: 
-            env: $ENVIRONMENT
+          # var: 
+          #   env: $ENVIRONMENT
           auto-approve: true
       
 
