@@ -255,4 +255,3 @@ workflows:
       - terraform-deploy:
           requires: 
             - validate-terraform-install 
-          context: my-context
