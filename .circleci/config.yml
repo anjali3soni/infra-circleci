@@ -203,9 +203,9 @@ jobs:
     steps:
       - checkout
       - terraform/install:
-          arch: arm64 
+          arch: amd64 
           os: linux 
-          terraform_version: latest
+          terraform_version: '1.9.7'
       - run:
           command: ls -lah
         
