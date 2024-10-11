@@ -212,16 +212,18 @@ jobs:
             node -v 
             docker -v
             terraform -v
+      
 
-  # terraform-deploy:
-  #   executor: terraform-executor 
+  terraform-deploy:
+    executor: terraform-executor 
   #   parameters:
   #     environment:
   #       type: string
   #       default: "dev"
-  #   steps:
-  #     - checkout
-
+    steps:
+      - checkout
+      - run:
+          command: terraform -v
   #     - run:
   #         name: Set environment Variable
   #         command: |
@@ -234,33 +236,33 @@ jobs:
   #             export environment="<< parameters.environment >>"
   #           fi
       
-  #     - terraform/init:
-  #         path: ./
+      # - terraform/init:
+      #     path: ./
 
-  #     - run:
-  #         name: Select Workspace
-  #         command: |
-  #           terraform workspace select $environment
+      # # - run:
+      # #     name: Select Workspace
+      # #     command: |
+      # #       terraform workspace select $environment
 
-  #     - terraform/plan:
-  #         path: ./
-  #         var:
-  #           env: << parameters.environment >>
-  #           aws_access_key: $AWS_ACCESS_KEY_ID
-  #           aws_secret_key: $AWS_SECRET_ACCESS_KEY
+      # - terraform/plan:
+      #     path: ./
+      #     var:
+      #       # env: << parameters.environment >>
+      #       aws_access_key: $AWS_ACCESS_KEY_ID
+      #       aws_secret_key: $AWS_SECRET_ACCESS_KEY
 
-  #     - terraform/apply:
-  #         path: ./
-  #         var: 
-  #           env: << parameters.environment >>
-  #           aws_access_key: $AWS_ACCESS_KEY_ID
-  #           aws_secret_key: $AWS_SECRET_ACCESS_KEY
-  #         auto-approve: true
+      # - terraform/apply:
+      #     path: ./
+      #     var: 
+      #       # env: << parameters.environment >>
+      #       aws_access_key: $AWS_ACCESS_KEY_ID
+      #       aws_secret_key: $AWS_SECRET_ACCESS_KEY
+      #     auto-approve: true
 
 workflows:
   deploy:
     jobs:
       - validate-terraform-install  
-      # - terraform-deploy:
-      #     requires: 
-      #       - validate-terraform-install 
+      - terraform-deploy:
+          requires: 
+            - validate-terraform-install 
