@@ -57,10 +57,10 @@ jobs:
             terraform workspace select $environment
       - terraform/plan:
           var:
-            env: << $ENVIRONMENT
+            env: $ENVIRONMENT
       - terraform/apply:
           var: 
-            env: << $ENVIRONMENT
+            env: $ENVIRONMENT
           auto-approve: true
       
 
