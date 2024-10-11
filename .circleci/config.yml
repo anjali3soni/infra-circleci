@@ -56,11 +56,9 @@ jobs:
           command: |
             terraform workspace select $environment
       - terraform/plan:
-          path: ./
           var:
             env: << parameters.environment >>
       - terraform/apply:
-          path: ./
           var: 
             env: << parameters.environment >>
           auto-approve: true
