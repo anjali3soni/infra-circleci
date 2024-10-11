@@ -1,7 +1,7 @@
 provider "aws" {
-#   region  = local.env.region
-#   profile = local.env.profile
-    region = us-east-1
+  region  = local.env.region
+  profile = local.env.profile
+    # region = us-east-1
 }
 
 terraform {
