@@ -1,191 +1,3 @@
-# version: 2.1
-
-# orbs:
-#   terraform: circleci/terraform@3.3.0
-
-# executors:
-#   terraform-executor:
-#     machine:
-#       image: ubuntu-2004:202101-01  
-#       resource_class: medium  
-
-# jobs:
-#   validate-terraform-install:
-#     executor: terraform-executor 
-#     steps:
-#       - checkout
-#       - terraform/install 
-
-#   terraform-deploy:
-#     executor: terraform-executor 
-#     parameters:
-#       environment:
-#         type: string
-#         default: "dev"
-#     steps:
-#       - checkout
-
-#       - run:
-#           name: Set Environment Variable
-#           command: |
-#             if [[ "<< parameters.environment >>" != "dev" && "<< parameters.environment >>" != "prod" && "<< parameters.environment >>" != "pre-prod" && "<< parameters.environment >>" != "stage" ]]; then
-#               export ENVIRONMENT="dev"
-#             else
-#               export ENVIRONMENT="<< parameters.environment >>"
-#             fi
-#             echo "ENVIRONMENT=$ENVIRONMENT" >> $BASH_ENV
-      
-#       - terraform/init:
-#           path: ./
-
-#       - run:
-#           name: Select Workspace
-#           command: |
-#             terraform workspace select $ENVIRONMENT
-
-#       - terraform/plan:
-#           path: ./
-#           var: env=<< parameters.environment >>
-#           var: aws_access_key=<< AWS_ACCESS_KEY_ID >>
-#           var: aws_secret_key=<< AWS_SECRET_ACCESS_KEY >>
-
-#       - terraform/apply:
-#           path: ./
-#           var: aws_access_key=<< AWS_ACCESS_KEY_ID >>
-#           var: aws_secret_key=<< AWS_SECRET_ACCESS_KEY >>
-#           auto-approve: true
-
-
-# workflows:
-#   deploy:
-#     jobs:
-#       - validate-terraform-install  
-#       - terraform-deploy:
-#           requires: 
-#             - validate-terraform-install 
-#           environment: "dev"  
-
-
-
-# version: 2.1
-
-# orbs:
-#   terraform: circleci/terraform@3.1 
-
-# executors:
-#   terraform-executor:
-#     machine:
-#       image: ubuntu-2004:202101-01  
-#       resource_class: medium  
-
-# # jobs:
-# #   validate-terraform-install:
-# #     executor: terraform-executor 
-# #     steps:
-# #       - checkout
-# #       - terraform/install 
-
-# #   terraform-deploy:
-# #     executor: terraform-executor 
-# #     parameters:
-# #       environment:
-# #         type: string
-# #         default: "dev"
-# #     steps:
-# #       - checkout
-
-# #       - run:
-# #           name: Set environment Variable
-# #           command: |
-# #             if [[ "<< parameters.environment >>" != "dev" && 
-# #                   "<< parameters.environment >>" != "prod" && 
-# #                   "<< parameters.environment >>" != "pre-prod" && 
-# #                   "<< parameters.environment >>" != "stage" ]]; then
-# #               export environment="dev"
-# #             else
-# #               export environment="<< parameters.environment >>"
-# #             fi
-      
-# #       - terraform/init:
-# #           path: ./
-
-# #       - run:
-# #           name: Select Workspace
-# #           command: |
-# #             terraform workspace select $environment
-
-# #       - terraform/plan:
-# #           path: ./
-# #           var:
-# #             env: << parameters.environment >>
-# #             aws_access_key: $AWS_ACCESS_KEY_ID
-# #             aws_secret_key: $AWS_SECRET_ACCESS_KEY
-
-# #       - terraform/apply:
-# #           path: ./
-# #           var: 
-# #             env: << parameters.environment >>
-# #             aws_access_key: $AWS_ACCESS_KEY_ID
-# #             aws_secret_key: $AWS_SECRET_ACCESS_KEY
-# #           auto-approve: true
-#   jobs:
-#     terraform-deploy:
-#       executor: terraform-executor 
-#       parameters:
-#         environment:
-#           type: string
-#           default: "dev"
-#       steps:
-#         - checkout
-
-#         - run:
-#             name: Set environment Variable
-#             command: |
-#               if [[ "<< parameters.environment >>" != "dev" && 
-#                     "<< parameters.environment >>" != "prod" && 
-#                     "<< parameters.environment >>" != "pre-prod" && 
-#                     "<< parameters.environment >>" != "stage" ]]; then
-#                 export environment="dev"
-#               else
-#                 export environment="<< parameters.environment >>"
-#               fi
-        
-#         - terraform/init:
-#             path: ./
-
-#         - run:
-#             name: Select Workspace
-#             command: |
-#               terraform workspace select $environment
-
-#         - terraform/plan:
-#             path: ./
-#             var:
-#               env: << parameters.environment >>
-#               aws_access_key: $AWS_ACCESS_KEY_ID
-#               aws_secret_key: $AWS_SECRET_ACCESS_KEY
-
-#         - terraform/apply:
-#             path: ./
-#             var: 
-#               env: << parameters.environment >>
-#               aws_access_key: $AWS_ACCESS_KEY_ID
-#               aws_secret_key: $AWS_SECRET_ACCESS_KEY
-#             auto-approve: true
-
-
-# workflows:
-#   deploy:
-#     jobs:
-#       - validate-terraform-install  
-#       - terraform-deploy:
-#           requires: 
-#             - validate-terraform-install 
-#           environment:
-#             environment: "dev"
-
-
-
 version: 2.1
 
 orbs:
@@ -221,17 +33,17 @@ jobs:
             node -v 
             docker -v
             terraform -v
-      - run:
-          name: Set environment Variable
-          command: |
-            if [[ "<< parameters.environment >>" != "dev" && 
-                  "<< parameters.environment >>" != "prod" && 
-                  "<< parameters.environment >>" != "pre-prod" && 
-                  "<< parameters.environment >>" != "stage" ]]; then
-              export environment="dev"
-            else
-              export environment="<< parameters.environment >>"
-            fi
+      # - run:
+      #     name: Set environment Variable
+      #     command: |
+      #       if [[ "<< parameters.environment >>" != "dev" && 
+      #             "<< parameters.environment >>" != "prod" && 
+      #             "<< parameters.environment >>" != "pre-prod" && 
+      #             "<< parameters.environment >>" != "stage" ]]; then
+      #         export environment="dev"
+      #       else
+      #         export environment="<< parameters.environment >>"
+      #       fi
       - aws-cli/install
       - aws-cli/setup:
           # access-key-id: $AWS_ACCESS_KEY_ID
@@ -246,11 +58,11 @@ jobs:
       - terraform/plan:
           path: ./
           var:
-            env: << parameters.environment >>
+            env: $environment=<< parameters.environment >>
       - terraform/apply:
           path: ./
           var: 
-            env: << parameters.environment >>
+            env: $environment=<< parameters.environment >>
           auto-approve: true
       
 
