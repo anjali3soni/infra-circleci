@@ -33,7 +33,7 @@ jobs:
             else
               export ENVIRONMENT="<< parameters.environment >>"
             fi
-            echo "ENVIRONMENT=$ENVIRONMENT" >> $BASH_ENV
+
       
       - terraform/init:
           path: .
