@@ -43,18 +43,18 @@ jobs:
       - run:
           name: Set environment Variable
           command: |
-            if [[ "<< parameters.environment >>" != "dev" && 
-                  "<< parameters.environment >>" != "prod" && 
-                  "<< parameters.environment >>" != "pre-prod" && 
-                  "<< parameters.environment >>" != "stage" ]]; then
-              export environment="dev"
+            if [[ "<< parameters.env >>" != "dev" && 
+                  "<< parameters.env >>" != "prod" && 
+                  "<< parameters.env >>" != "pre-prod" && 
+                  "<< parameters.env >>" != "stage" ]]; then
+              export env="dev"
             else
-              export environment="<< parameters.environment >>"
+              export env="<< parameters.env >>"
             fi
       - run:
           name: Select Workspace
           command: |
-            terraform workspace select << parameters.environment >>
+            terraform workspace select << parameters.env >>
       - terraform/plan
       - terraform/apply
       # - terraform/init
