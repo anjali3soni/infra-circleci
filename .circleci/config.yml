@@ -25,25 +25,14 @@ jobs:
           os: linux 
           terraform_version: '1.9.7'
       - run:
-          command: ls -lah
+          command: ls -lah         #for testing
         
       - run:
           name: checking dependencies
           command: |
-            node -v 
-            docker -v
+            node -v                #for testing
+            docker -v              #for testing
             terraform -v
-      # - run:
-      #     name: Set environment Variable
-      #     command: |
-      #       if [[ "<< parameters.environment >>" != "dev" && 
-      #             "<< parameters.environment >>" != "prod" && 
-      #             "<< parameters.environment >>" != "pre-prod" && 
-      #             "<< parameters.environment >>" != "stage" ]]; then
-      #         export environment="dev"
-      #       else
-      #         export environment="<< parameters.environment >>"
-      #       fi
       - aws-cli/install
       - aws-cli/setup
           # access-key-id: $AWS_ACCESS_KEY_ID
@@ -51,6 +40,17 @@ jobs:
           # profile_name: default
           # secret-access-key: $AWS_SECRET_ACCESS_KEY
       - terraform/init
+      - run:
+          name: Set environment Variable
+          command: |
+            if [[ "<< parameters.environment >>" != "dev" && 
+                  "<< parameters.environment >>" != "prod" && 
+                  "<< parameters.environment >>" != "pre-prod" && 
+                  "<< parameters.environment >>" != "stage" ]]; then
+              export environment="dev"
+            else
+              export environment="<< parameters.environment >>"
+            fi
       - run:
           name: Select Workspace
           command: |
