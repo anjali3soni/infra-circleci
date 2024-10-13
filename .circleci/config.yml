@@ -66,5 +66,4 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - validate-terraform-install:
-          environment: "uat"
+      - validate-terraform-install
