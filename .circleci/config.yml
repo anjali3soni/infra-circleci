@@ -67,5 +67,4 @@ workflows:
   deploy:
     jobs:
       - validate-terraform-install:
-          parameters:
             env: "dev"
