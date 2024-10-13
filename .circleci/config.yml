@@ -66,4 +66,5 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - validate-terraform-install  
+      - validate-terraform-install:
+          environment: "prod"
