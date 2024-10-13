@@ -67,4 +67,4 @@ workflows:
   deploy:
     jobs:
       - validate-terraform-install:
-          environment: "prod"
+          environment: "uat"

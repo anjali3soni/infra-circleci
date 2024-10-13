@@ -6,8 +6,8 @@ resource "aws_instance" "instance_1" {
 
   tags = {
     Terraform   = "true"
-    Environment = "${local.env.environment}-vpc"
-    Name        = "${local.env.environment}-instance-1"
+    Environment = "${local.env.environment}-i"
+    Name        = "${local.env.environment}-instance"
   }
 
 }
