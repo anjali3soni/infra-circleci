@@ -65,7 +65,10 @@ jobs:
 
 workflows:
   deploy:
+    parameters:
+      env:
+        type: string
+        default: "dev"
     jobs:
       - validate-terraform-install:
-          parameters:
-            env: << parameters.env >>
+          env: << workflow.parameters.env >>
