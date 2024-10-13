@@ -15,7 +15,7 @@ jobs:
   validate-terraform-install:
     executor: terraform-executor 
     parameters:
-      environment:
+      env:
         type: string
         default: "dev"
     steps:
@@ -66,4 +66,5 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - validate-terraform-install
+      - validate-terraform-install:
+          env: "prod"
