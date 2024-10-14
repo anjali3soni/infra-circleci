@@ -4,20 +4,20 @@ orbs:
   terraform: circleci/terraform@3.1 
   aws-cli: circleci/aws-cli@4.1.3
 
-
 executors:
   terraform-executor:
     machine:
       image: ubuntu-2204:current
       resource_class: medium  
 
+parameters:
+  env:
+    type: string
+    default: "dev"
+
 jobs:
   validate-terraform-install:
     executor: terraform-executor 
-    parameters:
-      env:
-        type: string
-        default: "dev"
     steps:
       - checkout
       - terraform/install:
@@ -26,7 +26,6 @@ jobs:
           terraform_version: '1.9.7'
       - run:
           command: ls -lah         #for testing
-        
       - run:
           name: checking dependencies
           command: |
@@ -43,28 +42,25 @@ jobs:
       - run:
           name: Set environment Variable
           command: |
-            if [[ "<< parameters.env >>" != "dev" && 
-                  "<< parameters.env >>" != "prod" && 
-                  "<< parameters.env >>" != "pre-prod" && 
-                  "<< parameters.env >>" != "stage" ]]; then
+            if [[ "<< pipeline.parameters.env >>" != "dev" && 
+                  "<< pipeline.parameters.env >>" != "prod" && 
+                  "<< pipeline.parameters.env >>" != "pre-prod" && 
+                  "<< pipeline.parameters.env >>" != "stage" ]]; then
               export env="dev"
             else
-              export env="<< parameters.env >>"
+              export env="<< pipeline.parameters.env >>"
             fi
       - run:
           name: Select Workspace
           command: |
-            terraform workspace select << parameters.env >>
+            terraform workspace select << pipeline.parameters.env >>
       - terraform/plan
       - terraform/apply
       # - terraform/init
       # - terraform/destroy
-    
-
-      
 
 workflows:
   deploy:
     jobs:
       - validate-terraform-install:
-            env: "dev"
+            env: << pipeline.parameters.env >>
