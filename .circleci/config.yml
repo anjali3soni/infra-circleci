@@ -51,8 +51,9 @@ jobs:
                   "<< parameters.env >>" != "prod" && 
                   "<< parameters.env >>" != "pre-prod" && 
                   "<< parameters.env >>" != "stage" ]]; then
-              export env="dev"
-              echo "Invalid environment, defaulting to 'dev'"
+              exit 1
+              # export env="dev"
+              # echo "Invalid environment, defaulting to 'dev'"
             else
               export env="<< parameters.env >>"
             fi
