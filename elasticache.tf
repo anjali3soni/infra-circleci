@@ -1,5 +1,5 @@
 resource "aws_elasticache_subnet_group" "redis" {
-  name       = "yc-redis"
+  name       = "${local.env.environment}-redis"
   subnet_ids = module.vpc.public_subnets
 
   tags = {
