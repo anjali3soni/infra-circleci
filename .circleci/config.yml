@@ -12,7 +12,7 @@ executors:
 
 parameters:
   env:
-    type: enum
+    type: string
     default: "dev" 
     enum: ["dev", "stage", "pre-prod", "prod"]
 
